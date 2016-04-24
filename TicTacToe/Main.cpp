@@ -6,7 +6,7 @@
 
 using namespace sf;
 int main() {
-	sf::RenderWindow window(sf::VideoMode(1410, 910), "SFML Stuff");
+	sf::RenderWindow window(sf::VideoMode(1410, 910), "Tic-Tac-Toe");
 	std::unique_ptr<DraggableSprite> draggedSprite = nullptr;
 	/// Begin load textures
 	Texture boardTexture;
@@ -46,7 +46,6 @@ int main() {
 				if (event.mouseButton.button == Mouse::Left) {
 					FloatRect circleBounds = circle.getGlobalBounds();
 					if (circleBounds.contains((float)event.mouseButton.x, (float)event.mouseButton.y)) {
-						std::cout << "Mouse clicked in circle" << std::endl;
 						std::unique_ptr<Sprite> draggingCircle(new Sprite(circleTexture));
 						std::unique_ptr<DraggableSprite> draggable(new DraggableSprite(std::move(draggingCircle), transformMouseToLocal(&event.mouseButton, &circleBounds), Vector2f((float)event.mouseButton.x, (float)event.mouseButton.y)));
 						draggable->startDrag();
@@ -54,7 +53,10 @@ int main() {
 					}
 					FloatRect xBounds = x.getGlobalBounds();
 					if (xBounds.contains((float)event.mouseButton.x, (float)event.mouseButton.y)) {
-						std::cout << "Mouse clicked in x" << std::endl;
+						std::unique_ptr<Sprite> draggingCircle(new Sprite(xTexture));
+						std::unique_ptr<DraggableSprite> draggable(new DraggableSprite(std::move(draggingCircle), transformMouseToLocal(&event.mouseButton, &xBounds), Vector2f((float)event.mouseButton.x, (float)event.mouseButton.y)));
+						draggable->startDrag();
+						draggedSprite = std::move(draggable);
 					}
 				}
 				break;
