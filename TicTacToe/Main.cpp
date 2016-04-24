@@ -64,8 +64,15 @@ int main() {
 					moveDraggedSprite(&event, draggedSprite.get());
 				}
 				break;
-				}
 			}
+			case Event::MouseButtonReleased: {
+				if (draggedSprite != nullptr) {
+					draggedSprite->endDrag();
+				}
+				break;
+			}
+			}
+			
 
 		}
 		window.display();
