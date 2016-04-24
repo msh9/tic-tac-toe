@@ -3,6 +3,8 @@
 #define __Main__
 #include <SFML\Graphics.hpp>
 #include <memory>
+#include "sprite-management/DraggableSprite.h"
 
-void handleMouseClick(sf::Event*, sf::Sprite* , sf::Sprite* );
+std::unique_ptr<DraggableSprite> handleMouseClick(const sf::Event*, const sf::Sprite*, const sf::Sprite*);
+void moveDraggedSprite(const sf::Event*, DraggableSprite*);
 #endif // !__Main__

@@ -121,10 +121,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="sprite-management\DraggableSprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="sprite-management\DraggableSprite.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TicTacToe.rc" />
