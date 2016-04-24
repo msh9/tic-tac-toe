@@ -5,6 +5,6 @@
 #include <memory>
 #include "sprite-management/DraggableSprite.h"
 
-std::unique_ptr<DraggableSprite> handleMouseClick(const sf::Event*, const sf::Sprite*, const sf::Sprite*);
+sf::Vector2f transformMouseToLocal(const sf::Event::MouseButtonEvent*, const sf::FloatRect*);
 void moveDraggedSprite(const sf::Event*, DraggableSprite*);
 #endif // !__Main__

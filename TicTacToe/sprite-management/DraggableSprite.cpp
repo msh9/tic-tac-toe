@@ -1,6 +1,12 @@
 #include "DraggableSprite.h"
 
 DraggableSprite::DraggableSprite(std::unique_ptr<sf::Sprite> sprite): sprite(std::move(sprite)) { }
+DraggableSprite::DraggableSprite(std::unique_ptr<sf::Sprite> sprite,
+	const sf::Vector2f origin,
+	const sf::Vector2f startPosition): DraggableSprite(std::move(sprite)) {
+	this->sprite->setOrigin(origin);
+	this->sprite->setPosition(startPosition);
+}
 DraggableSprite::~DraggableSprite() { }
 
 void DraggableSprite::startDrag() {

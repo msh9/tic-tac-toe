@@ -48,7 +48,7 @@ int main() {
 					if (circleBounds.contains((float)event.mouseButton.x, (float)event.mouseButton.y)) {
 						std::cout << "Mouse clicked in circle" << std::endl;
 						std::unique_ptr<Sprite> draggingCircle(new Sprite(circleTexture));
-						std::unique_ptr<DraggableSprite> draggable(new DraggableSprite(std::move(draggingCircle)));
+						std::unique_ptr<DraggableSprite> draggable(new DraggableSprite(std::move(draggingCircle), transformMouseToLocal(&event.mouseButton, &circleBounds), Vector2f((float)event.mouseButton.x, (float)event.mouseButton.y)));
 						draggable->startDrag();
 						draggedSprite = std::move(draggable);
 					}
@@ -80,22 +80,11 @@ int main() {
 	return 0;
 }
 
-std::unique_ptr<DraggableSprite> handleMouseClick(const Event* event, const Sprite* circle, const Sprite* x) {
-	if (event->mouseButton.button == Mouse::Left) {
-		FloatRect circleBounds = circle->getGlobalBounds();
-		if (circleBounds.contains((float)event->mouseButton.x, (float)event->mouseButton.y)) {
-			std::cout << "Mouse clicked in circle" << std::endl;
-			std::unique_ptr<Sprite> draggingCircle(new Sprite());
-			std::unique_ptr<DraggableSprite> draggable(new DraggableSprite(std::move(draggingCircle)));
-			return draggable;
-		}
-		FloatRect xBounds = x->getGlobalBounds();
-		if (xBounds.contains((float)event->mouseButton.x, (float)event->mouseButton.y)) {
-			std::cout << "Mouse clicked in x" << std::endl;
-			return nullptr;
-		}
-	}
-	return nullptr;
+sf::Vector2f transformMouseToLocal(const Event::MouseButtonEvent* mouseButton, const FloatRect* clickBounds) {
+	return Vector2f(
+		(float)mouseButton->x - clickBounds->left,
+		(float)mouseButton->y - clickBounds->top
+	);
 }
 
 void moveDraggedSprite(const Event* event, DraggableSprite* draggedSprite) {
