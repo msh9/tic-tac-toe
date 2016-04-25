@@ -27,6 +27,11 @@ void DraggableSprite::setPosition(const int x, const int y) {
 	}
 }
 
+void DraggableSprite::setPosition(const int x, const int y, const sf::Vector2f newOrigin) {
+	this->sprite->setOrigin(newOrigin);
+	this->sprite->setPosition((float)x, (float)y);
+}
+
 void DraggableSprite::draw(sf::RenderWindow* window) {
 	window->draw(*(this->sprite.get()));
 }

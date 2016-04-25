@@ -3,11 +3,14 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "sprite-management/DraggableSprite.h"
+#include <cmath>
+#include <vector>
 
 using namespace sf;
 int main() {
 	sf::RenderWindow window(sf::VideoMode(1410, 910), "Tic-Tac-Toe");
 	std::unique_ptr<DraggableSprite> draggedSprite = nullptr;
+	std::vector<std::unique_ptr<DraggableSprite>> placedSprite;
 	/// Begin load textures
 	Texture boardTexture;
 	boardTexture.loadFromFile("resources/tic-tac-toe-board.png");
@@ -30,10 +33,12 @@ int main() {
 		window.draw(board);
 		window.draw(circle);
 		window.draw(x);
+		for (auto &sprite : placedSprite) {
+			sprite->draw(&window);
+		}
 		if (draggedSprite != nullptr) {
 			draggedSprite->draw(&window);
 		}
-
 		sf::Event event;
 		while (window.pollEvent(event)) {
 			switch (event.type) {
@@ -70,6 +75,18 @@ int main() {
 			case Event::MouseButtonReleased: {
 				if (draggedSprite != nullptr) {
 					draggedSprite->endDrag();
+					if (event.mouseButton.x < 900.f &&
+						event.mouseButton.x > 0.f &&
+						event.mouseButton.y < 900.f &&
+						event.mouseButton.y > 0.f) {
+						auto yPosition = (int)rint(floorf((float)event.mouseButton.y / 300.f) * 300.f);
+						auto xPosition = (int)rint(floorf((float)event.mouseButton.x / 300.f) * 300.f);
+						draggedSprite->setPosition(xPosition, yPosition, Vector2f(0.f, 0.f));
+						placedSprite.push_back(std::move(draggedSprite));
+						draggedSprite = nullptr;
+					} else {
+						draggedSprite = nullptr;
+					}
 				}
 				break;
 			}

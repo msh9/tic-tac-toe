@@ -17,6 +17,7 @@ public:
 	void endDrag();
 	const bool isDragged() const;
 	void setPosition(const int, const int);
+	void setPosition(const int, const int, const sf::Vector2f);
 	void draw(sf::RenderWindow*);
 };
 
